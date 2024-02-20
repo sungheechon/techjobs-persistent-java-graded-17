@@ -19,12 +19,15 @@ public abstract class AbstractEntity {
     private int id;
 
     @NotBlank(message = "Name is required")
-    @Size(max = 100, message="Name cannot be more than 100 characters")
+    @Size(min=3, max=75, message="Name needs to be 3 - 75 characters")
     private String name;
+
 
     public int getId() {
         return id;
     }
+
+
 
     public String getName() {
         return name;
@@ -34,10 +37,13 @@ public abstract class AbstractEntity {
         this.name = name;
     }
 
+
+
     @Override
     public String toString() {
         return name;
     }
+
 
     @Override
     public boolean equals(Object o) {
