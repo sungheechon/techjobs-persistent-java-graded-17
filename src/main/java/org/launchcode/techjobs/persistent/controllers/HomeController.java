@@ -34,7 +34,6 @@ public class HomeController {
     private JobRepository jobRepository;
 
 
-
     @RequestMapping("/")
     public String index(Model model) {
 
@@ -62,23 +61,23 @@ public class HomeController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
+
             return "add";
         }
 
         Optional<Employer> employerOptional = employerRepository.findById(employerId);
 
         if (employerOptional.isEmpty()) {
-            model.addAttribute("error", "Employer not found");
-            return "add";
+            newJob.setEmployer(new Employer());
+        } else {
+
+            Employer employer = employerOptional.get();
+            newJob.setEmployer(employer);
         }
 
-        Employer employer = employerOptional.get();
-        newJob.setEmployer(employer);
-
-        if (skills != null) {
-            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-            newJob.setSkills(skillObjs);
-        }
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        newJob.setSkills(skillObjs);
 
 
         jobRepository.save(newJob);
